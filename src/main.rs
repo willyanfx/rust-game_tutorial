@@ -1,4 +1,7 @@
-use rusty_engine::prelude::{bevy::sprite::collide_aabb::Collision, *};
+use rusty_engine::{
+    prelude::{CollisionState, Engine, Game, Timer, Vec2},
+    sprite::SpritePreset,
+};
 
 struct GameState {
     high_score: u32,
@@ -37,7 +40,7 @@ fn main() {
 
 fn game_logic(engine: &mut Engine, game_state: &mut GameState) {
     for event in engine.collision_events.drain(..) {
-        if event.state == Collision::Right && event.pair.one_starts_with("player") {
+        if event.state == CollisionState::Begin && event.pair.one_starts_with("player") {
             for label in [event.pair.0, event.pair.1] {
                 if label != "player" {
                     engine.sprites.remove(&label);
